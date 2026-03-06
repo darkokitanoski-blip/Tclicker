@@ -1,0 +1,86 @@
+body {
+    animation-name: backgorundRainbow;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    font-family: 'Sans Comic Sans', sans-serif;
+    color: white;
+
+}
+
+h1 {
+    font-size: 50px;
+}
+
+@keyframes backgorundRainbow {
+    0% {
+        background-color: rgb(255, 0, 183);
+    } 25% {
+        background-color: red;
+    } 50% {
+        background-color: rgb(128, 119, 0);
+    } 75% {
+        background-color: red;
+    }
+    100% {
+        background-color: rgb(255, 0, 183);
+    }
+}
+
+#clicker-box {
+    width: 15%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#clicker-box img {
+    width: 100%;
+    animation: spinning linear infinite 2s;
+    width: 230px;
+    height: 230px;
+}
+
+h4 {
+    transition: 150ms;
+    opacity: 0;
+    position: absolute;
+    left: 70%;
+    border: 1px solid white;
+    padding: 1%;
+    border-radius: 15px;
+    width: 25%;
+}
+
+@keyframes spinning {
+    0% {
+        rotate: 0deg;
+    } 100% {
+        rotate: 360deg;
+    }
+}
+
+h3 {
+    opacity: 0;
+    font-size: 100px;
+    position: absolute;
+    left: 30%;
+    animation-play-state: paused;
+}
+
+@keyframes showPoint {
+    0% {
+        opacity: 1;
+    } 100% {
+        opacity: 0;
+        transform: translate(0%, 50%);
+    }
+}
+
+button {
+    position: absolute;
+    bottom: 0;
+    padding: 1%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+}
