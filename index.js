@@ -119,91 +119,67 @@ abilityContainer.addEventListener("click", (e) => {
     if (row.querySelector(".stop-btn")) return; 
 
     if (abilityName === "Double Click") {
-
-        if (btn.innerText !== "Use") {
-            points -= 100;
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            clickPower = 2;
-            addStopButton(row, abilityName, btn);
-            localStorage.setItem("Double_Click", "true");
+        const cost = 100;
+        const owned = localStorage.getItem("Double_Click");
     
-        } else if (points > 99 && !localStorage.getItem("Double_Click")) {
-            return;
+        if (!owned) {
+            if (points < cost) return; // not enough points
     
-        } else {
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            clickPower = 2;
-            addStopButton(row, abilityName, btn);
+            points -= cost; // buy ability
             localStorage.setItem("Double_Click", "true");
         }
+    
+        // use ability
+        btn.classList.add("used");
+        btn.innerText = "Used";
+        clickPower = 2;
+        addStopButton(row, abilityName, btn);
     }
+    
     
     if (abilityName === "Auto Boost") {
+        const cost = 500;
+        const owned = localStorage.getItem("Auto_Boost");
     
-        if (btn.innerText !== "Use") {
-            points -= 500;
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            addStopButton(row, abilityName, btn);
+        if (!owned) {
+            if (points < cost) return;
     
-            if (autoInterval) clearInterval(autoInterval);
-            autoInterval = setInterval(() => handleClick(true), 666);
-    
-            localStorage.setItem("Auto_Boost", "true");
-    
-        } else if (points > 499 && !localStorage.getItem("Auto_Boost")) {
-            return;
-    
-        } else {
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            addStopButton(row, abilityName, btn);
-    
-            if (autoInterval) clearInterval(autoInterval);
-            autoInterval = setInterval(() => handleClick(true), 666);
-    
+            points -= cost;
             localStorage.setItem("Auto_Boost", "true");
         }
+    
+        btn.classList.add("used");
+        btn.innerText = "Used";
+        addStopButton(row, abilityName, btn);
+    
+        if (autoInterval) clearInterval(autoInterval);
+        autoInterval = setInterval(() => handleClick(true), 666);
     }
+    
     
     if (abilityName === "Coin Rain") {
+        const cost = 1000;
+        const owned = localStorage.getItem("Coin_Rain");
     
-        if (btn.innerText !== "Use") {
-            points -= 1000;
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            addStopButton(row, abilityName, btn);
+        if (!owned) {
+            if (points < cost) return;
     
-            if (coinRainInterval) clearInterval(coinRainInterval);
-            coinRainInterval = setInterval(() => {
-                points += 1;
-                pointCounter.innerText = `You touched Trump ${points} times`;
-                localStorage.setItem("points", points);
-            }, 1000);
-    
-            localStorage.setItem("Coin_Rain", "true");
-    
-        } else if (points > 999 && !localStorage.getItem("Coin_Rain")) {
-            return;
-    
-        } else {
-            btn.classList.add("used");
-            btn.innerText = "Used";
-            addStopButton(row, abilityName, btn);
-    
-            if (coinRainInterval) clearInterval(coinRainInterval);
-            coinRainInterval = setInterval(() => {
-                points += 1;
-                pointCounter.innerText = `You touched Trump ${points} times`;
-                localStorage.setItem("points", points);
-            }, 1000);
-    
+            points -= cost;
             localStorage.setItem("Coin_Rain", "true");
         }
-
+    
+        btn.classList.add("used");
+        btn.innerText = "Used";
+        addStopButton(row, abilityName, btn);
+    
+        if (coinRainInterval) clearInterval(coinRainInterval);
+        coinRainInterval = setInterval(() => {
+            points += 1;
+            pointCounter.innerText = `You touched Trump ${points} times`;
+            localStorage.setItem("points", points);
+        }, 1000);
     }
+    
 
 });
 
