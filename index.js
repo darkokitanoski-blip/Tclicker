@@ -40,18 +40,14 @@ function getPlayer() {
 function updateLeaderboard() {
     const allPlayers = [...fakePlayers, getPlayer()];
 
-    // sort descending
     allPlayers.sort((a, b) => b.points - a.points);
 
-    // clear list
     leaderboardList.innerHTML = "";
 
     allPlayers.forEach((player, index) => {
         const li = document.createElement("li");
 
         li.innerText = `#${index + 1} ${player.name} - ${player.points}`;
-
-        // highlight YOU
         if (player.name === "YOU") {
             li.style.fontWeight = "bold";
             li.style.color = "gold";
@@ -103,6 +99,7 @@ autoClickerBtn.addEventListener("click", () => {
         autoclickerActive = true;
 
         autoInterval = setInterval(() => {
+            clickPower = 1
             points++;
             pointCounter.innerText = `You touched Trump ${points} times`;
             localStorage.setItem("points", points);
@@ -134,6 +131,7 @@ function addStopButton(row, abilityName, mainBtn) {
         }
         if (abilityName === "Coin Rain" && coinRainInterval) {
             clearInterval(coinRainInterval);
+            
             coinRainInterval = null;
         }
 
