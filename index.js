@@ -21,10 +21,10 @@ const randomQuotes = [
     "I have a great relationship with the Mexican people."
 ];
 
-// --- click handler ---
+// klick event
 function handleClick(isAuto = false) {
     if (!isAuto) {
-        // animation & quotes only for manual clicks
+        // random quotes från trump varje gång man trycker 
         quotesT.innerText = randomQuotes[Math.floor(Math.random() * randomQuotes.length)];
         quotesT.style.opacity = 1;
 
@@ -57,7 +57,7 @@ document.getElementById("clicker-box").addEventListener("click", () => {
     handleClick();
 });
 
-// --- auto-clicker button ---
+// auto klicker
 autoClickerBtn.addEventListener("click", () => {
     if (!autoclickerActive) {
         autoclickerActive = true;
@@ -76,16 +76,17 @@ autoClickerBtn.addEventListener("click", () => {
     }
 });
 
-// --- stop button helper ---
 function addStopButton(row, abilityName, mainBtn) {
     if (row.querySelector(".stop-btn")) return;
+    //  skapa ett stop knapp
     const stopBtn = document.createElement("button");
     stopBtn.className = "stop-btn";
     stopBtn.innerText = "Stop Using";
     stopBtn.style.marginLeft = "10px";
 
+    // när man tryker på stop 
     stopBtn.addEventListener("click", () => {
-        if (abilityName === "Double Click") clickPower = 1; // subtrahera korrekt
+        if (abilityName === "Double Click") clickPower = 1; 
         if (abilityName === "Auto Boost" && autoInterval) {
             clearInterval(autoInterval);
             autoInterval = null;
@@ -108,7 +109,7 @@ function addStopButton(row, abilityName, mainBtn) {
     row.appendChild(stopBtn);
 }
 
-// --- ability logic ---
+// Köpa ability 
 abilityContainer.addEventListener("click", (e) => {
     if (!e.target.classList.contains("ac-ability-btn")) return;
 
@@ -123,13 +124,16 @@ abilityContainer.addEventListener("click", (e) => {
         const owned = localStorage.getItem("Double_Click");
     
         if (!owned) {
-            if (points < cost) return; // not enough points
+            if (points < cost) {
+                alert("You do not have enough points to buy this ability!")
+                return;
+            } // har inte tillräckligt points
     
-            points -= cost; // buy ability
+            points -= cost; // 
             localStorage.setItem("Double_Click", "true");
         }
     
-        // use ability
+ 
         btn.classList.add("used");
         btn.innerText = "Used";
         clickPower = 2;
@@ -142,7 +146,10 @@ abilityContainer.addEventListener("click", (e) => {
         const owned = localStorage.getItem("Auto_Boost");
     
         if (!owned) {
-            if (points < cost) return;
+            if (points < cost) {
+                alert("You do not have enough points to buy this ability!")
+                return;
+            }
     
             points -= cost;
             localStorage.setItem("Auto_Boost", "true");
@@ -162,7 +169,10 @@ abilityContainer.addEventListener("click", (e) => {
         const owned = localStorage.getItem("Coin_Rain");
     
         if (!owned) {
-            if (points < cost) return;
+            if (points < cost) {
+                alert("You do not have enough points to buy this ability!")
+                return;
+            }
     
             points -= cost;
             localStorage.setItem("Coin_Rain", "true");
@@ -182,6 +192,7 @@ abilityContainer.addEventListener("click", (e) => {
     
 
 });
+// använding av abilities 
 
 function initAbilities() {
     const rows = document.querySelectorAll(".ac-ability-row");
@@ -210,6 +221,7 @@ function initAbilities() {
     });
 }
 
+// alla localstorage variabler ska koma up
 window.addEventListener("load", () => {
   if (localStorage.getItem("Double_Click")) clickPower = 2;
   if (localStorage.getItem("Auto_Boost") && !autoInterval) {
@@ -230,6 +242,5 @@ window.addEventListener("load", () => {
   pointCounter.innerText = `You touched Trump ${points} times`;
 });
 
-// --- initialize ---
 pointCounter.innerText = `You touched Trump ${points} times`;
 initAbilities();

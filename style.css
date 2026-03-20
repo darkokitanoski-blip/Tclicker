@@ -36,6 +36,7 @@ h1 {
         top: 100%;
         border:2px solid #444;
         border-radius:10px;
+        margin-bottom: 100px;
     
     }
     #clicker-box {
@@ -46,6 +47,9 @@ h1 {
     margin: 0;
 
     transform: translate(-40%, -50%);
+}
+body {
+    padding-bottom: 1000px;
 }
 
 }
@@ -195,4 +199,9 @@ button {
     padding: 1%;
     left: 50%;
     transform: translate(-50%, -40%);
+    border-radius: 9px;
+    border: none;
+    font-family: 'Sans Comic Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
 }
