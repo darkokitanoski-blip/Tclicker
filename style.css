@@ -4,12 +4,29 @@ body {
 background-color: black;
     font-family: 'Sans Comic Sans', sans-serif;
     color: white;
-    animation: backgorundRainbow 5s linear infinite
+    background-image: url("./north-american-bald-eagle-flag-600nw-2400248249.webp");
+    background-size: cover;
 
+    background-position: center;
+    padding: 0px;
+    margin: 0px;
+    height: 100vh;
+    overflow-x: hidden;
+
+}
+
+#effect {
+    backdrop-filter: blur(10px);
+    width: 100%;
+    margin: 0px;
+    height: 100vh;
+    padding: 0px;
 }
 
 h1 {
     font-size: 50px;
+    margin: 0px;
+    padding: 1%;
 }
 
 
@@ -27,16 +44,44 @@ h1 {
 
 }
 
+#leaderboard {
+    width:270px;
+    border:2px solid #444;
+    border-radius:10px;
+    position: absolute;
+    left: 80%;
+    top: 50%;
+    transform: translate(0px, -72%);
+    padding: 1%;
+
+
+}
+
+#leaderboard ul li{
+    list-style: none;
+    border-bottom:2px solid #444;
+    padding: 5px;
+
+}
+#leaderboard ul  {
+
+    width: 100%;
+    padding: 0px;
+}
+
 @media (max-width:800px) {
     #ac-ability-panel{
         width:420px;
-        position: absolute;
+        position: relative;
         left: 50%;
         transform: translate(-50%);
         top: 100%;
         border:2px solid #444;
         border-radius:10px;
-        margin-bottom: 100px;
+        margin-top: 190px;
+        background-color: #00000072;
+
+
     
     }
     #clicker-box {
@@ -49,8 +94,19 @@ h1 {
     transform: translate(-40%, -50%);
 }
 body {
-    padding-bottom: 1000px;
+    height: 100vh;
 }
+#leaderboard {
+    position: relative;  
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #00000072;
+}
+
 
 }
 
@@ -112,21 +168,6 @@ body {
     background:#43a047;
 }
 
-@keyframes backgorundRainbow {
-    0% {
-        background-color: rgb(255, 0, 183);
-    } 25% {
-        background-color: red;
-    } 50% {
-        background-color: rgb(128, 119, 0);
-    } 75% {
-        background-color: red;
-    }
-    100% {
-        background-color: rgb(255, 0, 183);
-    }
-}
-
  .stop-btn {
     position: absolute;
     top: 8.5%;
@@ -160,11 +201,13 @@ h4 {
     transition: 150ms;
     opacity: 0;
     position: absolute;
-    left: 70%;
+    left: 60%;
     border: 1px solid white;
     padding: 1%;
     border-radius: 15px;
     width: 25%;
+    top: 60%;
+    border-top-left-radius: 0px;
 }
 
 @keyframes spinning {

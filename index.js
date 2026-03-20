@@ -21,6 +21,46 @@ const randomQuotes = [
     "I have a great relationship with the Mexican people."
 ];
 
+const leaderboardList = document.getElementById("leaderboard-list");
+
+// static random players
+const fakePlayers = [
+    { name: "Player123", points: 150 },
+    { name: "ClickMaster", points: 320 },
+    { name: "NoLife99", points: 780 },
+    { name: "Grandma", points: 90 },
+    { name: "ElonFan", points: 500 }
+];
+
+// player object
+function getPlayer() {
+    return { name: "YOU", points: points };
+}
+
+function updateLeaderboard() {
+    const allPlayers = [...fakePlayers, getPlayer()];
+
+    // sort descending
+    allPlayers.sort((a, b) => b.points - a.points);
+
+    // clear list
+    leaderboardList.innerHTML = "";
+
+    allPlayers.forEach((player, index) => {
+        const li = document.createElement("li");
+
+        li.innerText = `#${index + 1} ${player.name} - ${player.points}`;
+
+        // highlight YOU
+        if (player.name === "YOU") {
+            li.style.fontWeight = "bold";
+            li.style.color = "gold";
+        }
+
+        leaderboardList.appendChild(li);
+    });
+}
+
 // klick event
 function handleClick(isAuto = false) {
     if (!isAuto) {
@@ -35,7 +75,6 @@ function handleClick(isAuto = false) {
 
         document.getElementById("imgT").src = Tangry;
     }
-    console.log(points)
     points += clickPower;
     setTimeout(() => {
         document.getElementById("imgT").src = Tmog;
@@ -45,6 +84,7 @@ function handleClick(isAuto = false) {
     document.getElementById("imgT").src = Tangry;
     pointCounter.innerText = `You touched Trump ${points} times`;
     localStorage.setItem("points", points);
+    updateLeaderboard();
 }
 
 // --- manual click ---
@@ -66,6 +106,7 @@ autoClickerBtn.addEventListener("click", () => {
             points++;
             pointCounter.innerText = `You touched Trump ${points} times`;
             localStorage.setItem("points", points);
+            updateLeaderboard();
         }, 1000);
 
         autoClickerBtn.innerText = "Stop Auto Clicking";
@@ -214,6 +255,7 @@ function initAbilities() {
                 points += 1;
                 pointCounter.innerText = `You touched Trump ${points} times`;
                 localStorage.setItem("points", points);
+                updateLeaderboard();
             }, 1000);
 
             addStopButton(row, abilityName, btn);
@@ -223,6 +265,7 @@ function initAbilities() {
 
 // alla localstorage variabler ska koma up
 window.addEventListener("load", () => {
+    updateLeaderboard();
   if (localStorage.getItem("Double_Click")) clickPower = 2;
   if (localStorage.getItem("Auto_Boost") && !autoInterval) {
     autoInterval = setInterval(() => {
