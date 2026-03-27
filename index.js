@@ -231,8 +231,8 @@ abilityContainer.addEventListener("click", (e) => {
     }
 
 
-    if (abilityName === "Big pot") {
-        const cost = 200;
+    if (abilityName === "Gambling") {
+        const cost = 700;
         const cooldownTime = 30000; // 30 sekunder
 
         const now = Date.now();
