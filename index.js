@@ -253,9 +253,9 @@ abilityContainer.addEventListener("click", (e) => {
         randomChance = [10000, -5000]
 
         if (Math.round(randomChance[Math.random()]) === 100000) {
-            points += 100000
+            points += 10000
         } else {
-            points -= 500000
+            points -= 5000
         }
 
         localStorage.setItem("bigPotCooldown", now);
