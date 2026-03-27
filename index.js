@@ -47,7 +47,7 @@ function updateLeaderboard() {
     allPlayers.forEach((player, index) => {
         const li = document.createElement("li");
 
-        li.innerText = `#${index + 1} ${player.name} - ${player.points}`;
+        li.innerText = `#${index + 1} ${player.name} : ${player.points}`;
         if (player.name === "YOU") {
             li.style.fontWeight = "bold";
             li.style.color = "gold";
@@ -124,14 +124,14 @@ function addStopButton(row, abilityName, mainBtn) {
 
     // när man tryker på stop 
     stopBtn.addEventListener("click", () => {
-        if (abilityName === "Double Click") clickPower = 1; 
+        if (abilityName === "Double Click") clickPower = 1;
         if (abilityName === "Auto Boost" && autoInterval) {
             clearInterval(autoInterval);
             autoInterval = null;
         }
         if (abilityName === "Coin Rain" && coinRainInterval) {
             clearInterval(coinRainInterval);
-            
+
             coinRainInterval = null;
         }
 
@@ -156,71 +156,72 @@ abilityContainer.addEventListener("click", (e) => {
     const row = btn.closest(".ac-ability-row");
     const abilityName = row.querySelector(".ac-ability-name").innerText;
 
-    if (row.querySelector(".stop-btn")) return; 
+    if (row.querySelector(".stop-btn")) return;
 
     if (abilityName === "Double Click") {
         const cost = 100;
         const owned = localStorage.getItem("Double_Click");
-    
+
         if (!owned) {
             if (points < cost) {
                 alert("You do not have enough points to buy this ability!")
                 return;
             } // har inte tillräckligt points
-    
+
             points -= cost; // 
             localStorage.setItem("Double_Click", "true");
         }
-    
- 
+
+
         btn.classList.add("used");
         btn.innerText = "Used";
         clickPower = 2;
         addStopButton(row, abilityName, btn);
     }
-    
-    
+
+
     if (abilityName === "Auto Boost") {
         const cost = 500;
         const owned = localStorage.getItem("Auto_Boost");
-    
+
         if (!owned) {
             if (points < cost) {
                 alert("You do not have enough points to buy this ability!")
                 return;
             }
-    
+
             points -= cost;
             localStorage.setItem("Auto_Boost", "true");
         }
-    
+
         btn.classList.add("used");
         btn.innerText = "Used";
         addStopButton(row, abilityName, btn);
-    
+
         if (autoInterval) clearInterval(autoInterval);
         autoInterval = setInterval(() => handleClick(true), 666);
     }
-    
-    
+
+
+    // man får extra points
     if (abilityName === "Coin Rain") {
         const cost = 1000;
         const owned = localStorage.getItem("Coin_Rain");
-    
+
         if (!owned) {
             if (points < cost) {
                 alert("You do not have enough points to buy this ability!")
                 return;
             }
-    
+
             points -= cost;
             localStorage.setItem("Coin_Rain", "true");
         }
-    
+
         btn.classList.add("used");
         btn.innerText = "Used";
         addStopButton(row, abilityName, btn);
-    
+
         if (coinRainInterval) clearInterval(coinRainInterval);
         coinRainInterval = setInterval(() => {
             points += 1;
@@ -228,7 +229,94 @@ abilityContainer.addEventListener("click", (e) => {
             localStorage.setItem("points", points);
         }, 1000);
     }
-    
+
+
+    if (abilityName === "Big pot") {
+        const cost = 200;
+        const cooldownTime = 30000; // 30 sekunder
+
+        const now = Date.now();
+
+        const lastUsed = Number(localStorage.getItem("bigPotCooldown")) || 0;
+
+        // cooldown check
+        if (now - lastUsed < cooldownTime) {
+            btn.innerText = "Cooldown still active";
+            return;
+        }
+
+        if (points < cost) {
+            alert("You do not have enough points to buy this ability!");
+            return;
+        }
+
+        randomChance = [10000, -5000]
+
+        if (Math.round(randomChance[Math.random()]) === 100000) {
+            points += 100000
+        } else {
+            points -= 500000
+        }
+
+        localStorage.setItem("bigPotCooldown", now);
+
+        btn.innerText = "Cooldown: 30 seconds";
+        let timeLeft = 30;
+
+        const countdown = setInterval(() => {
+            btn.innerText = `Cooldown: ${timeLeft}s`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+            }
+        }, 1000);
+        pointCounter.innerText = `You touched Trump ${points} times`;
+        localStorage.setItem("points", points);
+
+
+        setTimeout(() => {
+            btn.innerText = "Big pot";
+        }, cooldownTime);
+    }
+
+    if (abilityName === "Click Frenzy") {
+        const cost = 7500;
+        if (points < cost) {
+            alert("You do not have enough points to buy this ability!")
+            return;
+        }
+
+        const owned = localStorage.getItem("Click_Frenzy");
+
+        let oldClickerPower = clickPower
+
+        setTimeout(() => {
+            btn.innerText = "7500";
+            clickPower = oldClickerPower
+            btn.style.backgroundColor = "#4caf50";
+        }, 5000)
+        clickPower = 500
+        if (btn.innerText !== 'using') {
+            points -= cost;
+        }
+        btn.innerText = "using";
+        let timeLeft = 5;
+
+        // timer visual
+        const countdown = setInterval(() => {
+            btn.innerText = `using ${timeLeft}s`;
+            timeLeft--;
+
+            if (timeLeft === 0) {
+                clearInterval(countdown);
+                btn.innerText = "7500";
+            }
+        }, 1000);
+        btn.style.backgroundColor = "red";
+
+    }
+
 
 });
 // använding av abilities 
@@ -264,23 +352,23 @@ function initAbilities() {
 // alla localstorage variabler ska koma up
 window.addEventListener("load", () => {
     updateLeaderboard();
-  if (localStorage.getItem("Double_Click")) clickPower = 2;
-  if (localStorage.getItem("Auto_Boost") && !autoInterval) {
-    autoInterval = setInterval(() => {
-      points += clickPower;
-      pointCounter.innerText = `You touched Trump ${points} times`;
-      localStorage.setItem("points", points);
-    }, 666);
-  }
-  if (localStorage.getItem("Coin_Rain") && !coinRainInterval) {
-    coinRainInterval = setInterval(() => {
-      points += 1;
-      pointCounter.innerText = `You touched Trump ${points} times`;
-      localStorage.setItem("points", points);
-    }, 1000);
-  }
+    if (localStorage.getItem("Double_Click")) clickPower = 2;
+    if (localStorage.getItem("Auto_Boost") && !autoInterval) {
+        autoInterval = setInterval(() => {
+            points += clickPower;
+            pointCounter.innerText = `You touched Trump ${points} times`;
+            localStorage.setItem("points", points);
+        }, 666);
+    }
+    if (localStorage.getItem("Coin_Rain") && !coinRainInterval) {
+        coinRainInterval = setInterval(() => {
+            points += 1;
+            pointCounter.innerText = `You touched Trump ${points} times`;
+            localStorage.setItem("points", points);
+        }, 1000);
+    }
 
-  pointCounter.innerText = `You touched Trump ${points} times`;
+    pointCounter.innerText = `You touched Trump ${points} times`;
 });
 
 pointCounter.innerText = `You touched Trump ${points} times`;
